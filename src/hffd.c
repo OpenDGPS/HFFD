@@ -14,5 +14,6 @@ int getDeltaVariables ( char* inputMasterFileName, char* inputReferenceFileName,
 }
 
 int main ( void ) {
+	printf("Starting kernel.\n");
   return 0;
 }
