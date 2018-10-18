@@ -6,5 +6,5 @@ __global__ char smallInt ( char in ) {
 	return in;
 }
 
-__global__ void decodeRecord(int numOfCores, int recordNum ) {
+__global__ void decodeRecord ( int numOfCores, int recordNum ) {
 }
