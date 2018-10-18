@@ -34,4 +34,4 @@ getDeltaVariables gets one file pointer with the content of the hostfile which i
 The delta method makes only sense if the records are in the same order. Currently there is no way to find a corresponding record by a key or index.
 
 ### C interface
-The code can be compiled as an library via nvcc.
+The code can be compiled as a library via nvcc.
