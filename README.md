@@ -11,7 +11,7 @@ The code generation will be able to create the CUDA code from a Copybook direct.
 ## Output format
 The output format is always comma separated CSV with a linebreak. At the moment the encoding of the output is UTF-8. Strings are in quotes. Quotes and commas are escaped by a backslash. A CSV header is always given representing the name of the variable from the Copybook.
 
-To achieve the maximum performance from the GPU cores between every field there is another comma separated field filled with spaces (0x20) to cover the fixed width on both sides (input and output). The resulting CSV file size results in a little bit more than the original hostfile. But is significant smaller after compression even with the simpliest zip algorithm.
+To achieve the maximum performance from the GPU cores between every field, there is another comma separated field filled with spaces (0x20) to cover the fixed width on both sides (input and output). The resulting CSV file size results in a little bit more than the original hostfile. But is significant smaller after compression even with the simplest zip algorithm.
 
 For future releases it is planned to support formats like parquet and avro.
 
