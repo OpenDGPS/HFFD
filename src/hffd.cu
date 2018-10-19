@@ -31,7 +31,7 @@ int decodeHF ( void ) {
 	}
 
 	fclose(ptr_fp);
-	free(ptr_hostfile);
+//	free(ptr_hostfile);
 
 	cudaEvent_t start, stop;
 	cudaEventCreate(&start);
@@ -57,8 +57,8 @@ int decodeHF ( void ) {
 	cudaEventElapsedTime(&milliseconds, start, stop);
 
 
-	for ( int i = 0; i < BINARYSIZE; i++ ) {
-		if ( (i % 30) == 0 ) printf("\n%d\t", i);
+	for ( int i = 0; i < 360; i++ ) {
+		if ( (i % 120) == 0 ) printf("\n%d\t", i);
 		printf("%02x ", ptr_output[i]);
 	}
 	printf("\n");
