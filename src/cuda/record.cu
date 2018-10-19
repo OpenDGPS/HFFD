@@ -1,6 +1,6 @@
 /*****************************************************************/
-/*	             THIS FILE WILL BE GENERATED                     */
-/*	                      DO NOT EDIT!                           */
+/*               THIS FILE WILL BE GENERATED                     */
+/*                        DO NOT EDIT!                           */
 /*****************************************************************/
 
 #include <stdio.h>
