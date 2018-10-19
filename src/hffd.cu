@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "cuda/hffd.cu"
+#include "cuda/record.cu"
 
 int decodeHF ( char* inputFileName, char* outputFileName ) {
   return 0;
