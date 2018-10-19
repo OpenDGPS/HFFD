@@ -1,3 +1,3 @@
-__global__ void writeRecordToMemory ( int *currentRecord ) {
+__global__ int writeRecordToMemory ( int *currentRecord ) {
 	return 0;
 }
