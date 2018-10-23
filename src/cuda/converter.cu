@@ -18,11 +18,23 @@ __device__ static const unsigned char e2a[256] = {
          48, 49, 50, 51, 52, 53, 54, 55, 56, 57,250,251,252,253,254,255
 };
 
-__device__ void comp3ToInt ( uint8_t *inputMemAddress, int fieldBaseAddress, int length, uint32_t *currentRecordAttr ) {
+__device__ void comp3ToInt ( uint8_t *inputMemAddress, int fieldBaseAddress, int bcdIntegerLength, int inLength, int outLength, uint8_t *currentRecordAttr, int outputOffset ) {
 	// converting BCD to integer 
 	// http://www.3480-3590-data-conversion.com/article-bcd-binary.html
-	// return 0;
-	currentRecordAttr[0] = inputMemAddress[fieldBaseAddress];
+	int shifter, zehner, bcdID;
+	int resultInteger = 0;
+	shifter = 0;
+	zehner = 10000;
+	for ( bcdID = 0; bcdID < 5; bcdID++ ) {
+		shifter = ( bcdID % 2 ) == 0 ? 4 : 0;
+		resultInteger += (( inputMemAddress[fieldBaseAddress + (bcdID >> 1)] >> shifter ) & 0x0f) * zehner;
+		zehner = (int) (zehner / 10);
+	}
+	shifter = ( outLength - 1) * 8;
+	for ( bcdID = 0; bcdID < outLength; bcdID++ ) {
+			currentRecordAttr[ outputOffset + bcdID ] = ( resultInteger >> shifter ) & 0xff;
+			shifter -= 8;
+	}
 }
 
 __device__ void comp3ToSignedInt ( int memAddress, int length, int *currentRecordAttr ) {

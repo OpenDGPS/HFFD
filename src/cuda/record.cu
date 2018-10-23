@@ -54,14 +54,8 @@ __global__ void decodeRecord ( int numOfCores, int recordNum, uint8_t *inputMemA
 	outputMemAddress[threadIdx] = inputMemAddress[ recordAddress ]; // recordAddress; // inputMemAddress[ ( uint8_t ) recordAddress ];
 	theRecords theRecord;
 	theRecords * thisRecord = &theRecord;
-	// recordData theRecords;
-	// theRecords *theRecord = malloc(sizeof(theRecords));
-	thisRecord->RECID = 14;
-	comp3ToInt ( inputMemAddress, recordAddress, 3, &thisRecord->RECID );
-		outputMemAddress[outputAddress] = thisRecord->RECID >> 24;
-		outputMemAddress[outputAddress + 1] = thisRecord->RECID >> 16;
-		outputMemAddress[outputAddress + 2] = thisRecord->RECID >> 8;
-		outputMemAddress[outputAddress + 3] = thisRecord->RECID >> 0;
+	int bcdIntegerLength = 5;
+	comp3ToInt ( inputMemAddress, recordAddress, bcdIntegerLength, 3, 4, outputMemAddress, outputAddress );
 		recordAddress = recordAddress + 3; 
 		outputAddress = outputAddress + 4;
 	charToCharArray ( inputMemAddress, recordAddress, 1, &thisRecord->SYSTEMID_0 );

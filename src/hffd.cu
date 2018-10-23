@@ -57,7 +57,7 @@ int decodeHF ( void ) {
 	cudaEventElapsedTime(&milliseconds, start, stop);
 
 
-	for ( int i = 0; i < 360; i++ ) {
+	for ( int i = 0; i < 1560; i++ ) {
 		if ( (i % 120) == 0 ) printf("\n%d\t", i);
 		printf("%02x ", ptr_output[i]);
 	}
