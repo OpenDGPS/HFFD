@@ -53,12 +53,16 @@ int decodeHF ( void ) {
     // checkCudaErrors(cudaMemcpy(ptr_hostfileCopy, d_hostfile, (TOTALBINARYSIZE), cudaMemcpyDeviceToHost));
     checkCudaErrors(cudaMemcpy(ptr_output, d_output, OUTPUTBINARYSIZE, cudaMemcpyDeviceToHost));
 
+    checkCudaErrors(cudaFree(d_hostfile));
+    checkCudaErrors(cudaFree(d_output));
 	cudaEventSynchronize(stop);
+
 	float milliseconds = 0;
 	cudaEventElapsedTime(&milliseconds, start, stop);
 
 
-	for ( int i = (1560000 - 1560); i < 1560000; i++ ) {
+	// for ( int i = (1560000 - 1560); i < 1560000; i++ ) {
+	for ( int i = 0; i < 1560; i++ ) {
 		if ( (i % 120) == 0 ) printf("\n%d\t", i);
 		printf("%02x ", ptr_output[i]);
 	}
@@ -66,7 +70,7 @@ int decodeHF ( void ) {
 
 	printf("used time in sec: %f\n", milliseconds / 1000);
 	
-	// free(ptr_hostfile);
+	free(ptr_output);
 	return 0;
 }
 

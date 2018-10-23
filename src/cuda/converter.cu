@@ -21,14 +21,16 @@ __device__ static const unsigned char e2a[256] = {
 __device__ void comp3ToInt ( uint8_t *inputMemAddress, int fieldBaseAddress, int bcdIntegerLength, int inLength, int outLength, uint8_t *currentRecordAttr, int outputOffset ) {
 	// converting BCD to integer 
 	// http://www.3480-3590-data-conversion.com/article-bcd-binary.html
-	int shifter, zehner, bcdID;
-	int resultInteger = 0;
+	int shifter, bcdID;
+	long long zehner = 1;
+	long long resultInteger = 0;
 	shifter = 0;
-	zehner = 10000;
-	for ( bcdID = 0; bcdID < 5; bcdID++ ) {
+	for ( bcdID = 1; bcdID < bcdIntegerLength; bcdID++ )
+		zehner = zehner * 10; // 10000;
+	for ( bcdID = 0; bcdID < bcdIntegerLength; bcdID++ ) {
 		shifter = ( bcdID % 2 ) == 0 ? 4 : 0;
 		resultInteger += (( inputMemAddress[fieldBaseAddress + (bcdID >> 1)] >> shifter ) & 0x0f) * zehner;
-		zehner = (int) (zehner / 10);
+		zehner = (long long) (zehner / 10);
 	}
 	shifter = ( outLength - 1) * 8;
 	for ( bcdID = 0; bcdID < outLength; bcdID++ ) {
