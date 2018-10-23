@@ -41,12 +41,14 @@ __device__ void comp3ToSignedInt ( int memAddress, int length, int *currentRecor
 	// return 0;
 }
 
-__device__ void charToCharArray ( uint8_t *inputMemAddress, int fieldBaseAddress, int length, uint32_t *currentRecordAttr  ) {
+__device__ void charToCharArray ( uint8_t *inputMemAddress, int fieldBaseAddress, int length, uint8_t *currentRecordAttr, int outputOffset ) {
 	// converting ebcdic to ascii
 	// https://stackoverflow.com/questions/7734275/c-code-to-convert-ebcdic-printables-to-ascii-in-place
 	// return 0;
-
-	currentRecordAttr[0] = e2a[inputMemAddress[fieldBaseAddress]];
+	int character;
+	for ( character = 0; character < length; character++ ) {
+		currentRecordAttr[ outputOffset + character ] = e2a[inputMemAddress[fieldBaseAddress + character]];
+	}
 }
 
 __device__ void smallInt ( char in ) {

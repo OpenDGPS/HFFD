@@ -40,15 +40,18 @@ typedef struct recordData
 
 // int outputLength[10] = {4,4,4,40,4,4,3,4,50,3};
 
-__device__ int getGlobalIdx_1D_1D()
-{
+__device__ int getGlobalIdx_1D_1D() {
 	return blockIdx.x *blockDim.x + threadIdx.x;
+}
+
+__device__ int getGlobalIdx_1D_2D() {
+	return blockIdx.x * blockDim.x * blockDim.y + threadIdx.y * blockDim.x + threadIdx.x;
 }
 
 __global__ void decodeRecord ( int numOfCores, int recordNum, uint8_t *inputMemAddress , uint8_t *outputMemAddress ) {
 	int recordAddress,outputAddress;
 	int threadIdx;
-	threadIdx = getGlobalIdx_1D_1D();
+	threadIdx = getGlobalIdx_1D_2D(); // getGlobalIdx_1D_1D();
 	recordAddress = (threadIdx * RECORDLENGTH);
 	outputAddress = (threadIdx * RECORDLENGTH);
 	outputMemAddress[threadIdx] = inputMemAddress[ recordAddress ]; // recordAddress; // inputMemAddress[ ( uint8_t ) recordAddress ];
@@ -58,10 +61,10 @@ __global__ void decodeRecord ( int numOfCores, int recordNum, uint8_t *inputMemA
 	comp3ToInt ( inputMemAddress, recordAddress, bcdIntegerLength, 3, 4, outputMemAddress, outputAddress );
 		recordAddress = recordAddress + 3; 
 		outputAddress = outputAddress + 4;
-	charToCharArray ( inputMemAddress, recordAddress, 1, &thisRecord->SYSTEMID_0 );
-		outputMemAddress[outputAddress] = thisRecord->SYSTEMID_0;
-		recordAddress = recordAddress + 1; 
-		outputAddress = outputAddress + 1;
+	charToCharArray ( inputMemAddress, recordAddress, 4, outputMemAddress, outputAddress );
+		recordAddress = recordAddress + 4; 
+		outputAddress = outputAddress + 4;
+	/*
 	charToCharArray ( inputMemAddress, recordAddress, 1, &thisRecord->SYSTEMID_1 );
 		outputMemAddress[outputAddress] = thisRecord->SYSTEMID_1;
 		recordAddress = recordAddress + 1; 
@@ -74,6 +77,7 @@ __global__ void decodeRecord ( int numOfCores, int recordNum, uint8_t *inputMemA
 		outputMemAddress[outputAddress] = thisRecord->SYSTEMID_3;
 		recordAddress = recordAddress + 1; 
 		outputAddress = outputAddress + 1;
+	*/
 /*	comp3ToInt ( inputMemAddress, recordAddress, 5, &theRecord.MANDID );
 		recordAddress = recordAddress + 5; 
 	charToCharArray ( recordAddress, 40, *theRecord.NAME );
