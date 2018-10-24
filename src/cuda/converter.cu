@@ -1,4 +1,6 @@
 
+#define DELIMITER 0x3b
+
 __device__ static const unsigned char e2a[256] = {
           0,  1,  2,  3,156,  9,134,127,151,141,142, 11, 12, 13, 14, 15,
          16, 17, 18, 19,157,133,  8,135, 24, 25,146,143, 28, 29, 30, 31,
@@ -38,6 +40,40 @@ __device__ void comp3ToInt ( uint8_t *inputMemAddress, int fieldBaseAddress, int
 	}
 }
 
+__device__ void comp3ToIntSerial ( uint8_t *inputMemAddress, int fieldBaseAddress, int bcdIntegerLength, int inLength, int outLength, uint8_t *currentRecordAttr, int outputOffset ) {
+	// converting BCD to integer 
+	// http://www.3480-3590-data-conversion.com/article-bcd-binary.html
+	int shifter, bcdID, bID = 0, i, zeroCounter;
+	long long resultInteger = 0;
+	shifter = 0;
+	int alwaysZero = 0;
+	int currentDigit = 0;
+	int firstDigit = 0xff;
+	for ( i = 0; i < outLength; i++ ) {
+		currentRecordAttr[ outputOffset + i ] = 0x20;
+	}
+	for ( bcdID = 0; bcdID < bcdIntegerLength; bcdID++ ) {
+		shifter = ( bcdID % 2 ) == 0 ? 4 : 0;
+		currentDigit = (int)(( inputMemAddress[fieldBaseAddress + (bcdID >> 1)] >> shifter ) & 0x0f);
+		if ( currentDigit || alwaysZero ) {
+			if ( bcdID == 0 ) firstDigit = ( currentDigit > 0 );
+			alwaysZero = 1;
+			currentRecordAttr[ outputOffset + bID ] = 0x30 + currentDigit;
+			bID++;
+		} else {
+			zeroCounter++;
+		}
+	}
+	currentRecordAttr[ outputOffset + bID ] = DELIMITER;
+	bID++;
+	for ( i = 0; i < zeroCounter; i++ ) {
+		currentRecordAttr[ outputOffset + bID ] = 0x20;
+		bID++;
+	}
+	// currentRecordAttr[ outputOffset + bID ] = DELIMITER;
+	currentRecordAttr[ outputOffset + 3 ] = zeroCounter; // (firstDigit);
+}
+
 
 __device__ void comp3ToFloat ( uint8_t *inputMemAddress, int fieldBaseAddress, int bcdIntegerLength, int inLength, int outLength, uint8_t *currentRecordAttr, int outputOffset ) {
 	// 03 PRAEMIE      PIC S9(9)V99 COMP-3 VALUE 228.30.
@@ -70,7 +106,11 @@ __device__ void charToCharArray ( uint8_t *inputMemAddress, int fieldBaseAddress
 	// return 0;
 	int character;
 	for ( character = 0; character < length; character++ ) {
-		currentRecordAttr[ outputOffset + character ] = e2a[inputMemAddress[fieldBaseAddress + character]];
+		if ( e2a[inputMemAddress[fieldBaseAddress + character]] != 0 ) {
+			currentRecordAttr[ outputOffset + character ] = e2a[inputMemAddress[fieldBaseAddress + character]];
+		} else {
+			currentRecordAttr[ outputOffset + character ] = 0x20;
+		}
 	}
 }
 

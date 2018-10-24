@@ -62,13 +62,13 @@ int decodeHF ( void ) {
 
 
 	// for ( int i = (1560000 - 1560); i < 1560000; i++ ) {
-	for ( int i = 0; i < 1820; i++ ) {
-		if ( (i % 140) == 0 ) printf("\n%d\t", i);
+	for ( int i = 0; i < (1950 * 1); i++ ) {
+		if ( (i % 150) == 0 ) printf("\n%d\t", i);
 		printf("%02x ", ptr_output[i]);
 	}
 	printf("\n");
 
-	FILE *out = fopen("../result.bin", "wb");
+	FILE *out = fopen("../result.csv", "wb");
 	if ( out != NULL ) {
 		const size_t wrote = fwrite(ptr_output, OUTPUTBINARYSIZE, 1, out);
 		printf("Datei geschrieben: %lu\n", wrote);
