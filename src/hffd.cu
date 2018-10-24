@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "cuda/record.cu"
 
-#define BINARYSIZE 1560000
-#define OUTPUTBINARYSIZE BINARYSIZE * 2
+#define BINARYSIZE RECORDLENGTH * NUMOFRECORDS 
+#define OUTPUTBINARYSIZE OUTPUTRECORDLENGTH * NUMOFRECORDS
 #define NUMOFCORES 130
 
 
@@ -62,11 +62,17 @@ int decodeHF ( void ) {
 
 
 	// for ( int i = (1560000 - 1560); i < 1560000; i++ ) {
-	for ( int i = 0; i < 1560; i++ ) {
-		if ( (i % 120) == 0 ) printf("\n%d\t", i);
+	for ( int i = 0; i < 1820; i++ ) {
+		if ( (i % 140) == 0 ) printf("\n%d\t", i);
 		printf("%02x ", ptr_output[i]);
 	}
 	printf("\n");
+
+	FILE *out = fopen("../result.bin", "wb");
+	if ( out != NULL ) {
+		const size_t wrote = fwrite(ptr_output, OUTPUTBINARYSIZE, 1, out);
+		printf("Datei geschrieben: %lu\n", wrote);
+	}
 
 	printf("used time in sec: %f\n", milliseconds / 1000);
 	
@@ -83,7 +89,7 @@ int getDeltaVariables ( char* inputMasterFileName, char* inputReferenceFileName,
 }
 
 int main ( void ) {
-	printf("Starting kernel.\n");
+	printf("Starting kernel %d.\n", OUTPUTBINARYSIZE);
 	decodeHF();
 	printf("Kernel stopped.\n");
   return 0;

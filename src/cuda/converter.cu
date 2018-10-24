@@ -22,21 +22,42 @@ __device__ void comp3ToInt ( uint8_t *inputMemAddress, int fieldBaseAddress, int
 	// converting BCD to integer 
 	// http://www.3480-3590-data-conversion.com/article-bcd-binary.html
 	int shifter, bcdID;
-	long long zehner = 1;
+	long long zehner[12] = {100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1};
+	int zehnerStart = 0;
+	zehnerStart = ( 12 - bcdIntegerLength );
 	long long resultInteger = 0;
 	shifter = 0;
-	for ( bcdID = 1; bcdID < bcdIntegerLength; bcdID++ )
-		zehner = zehner * 10; // 10000;
 	for ( bcdID = 0; bcdID < bcdIntegerLength; bcdID++ ) {
 		shifter = ( bcdID % 2 ) == 0 ? 4 : 0;
-		resultInteger += (( inputMemAddress[fieldBaseAddress + (bcdID >> 1)] >> shifter ) & 0x0f) * zehner;
-		zehner = (long long) (zehner / 10);
+		resultInteger += (( inputMemAddress[fieldBaseAddress + (bcdID >> 1)] >> shifter ) & 0x0f) * zehner[zehnerStart + bcdID];
 	}
 	shifter = ( outLength - 1) * 8;
 	for ( bcdID = 0; bcdID < outLength; bcdID++ ) {
 			currentRecordAttr[ outputOffset + bcdID ] = ( resultInteger >> shifter ) & 0xff;
 			shifter -= 8;
 	}
+}
+
+
+__device__ void comp3ToFloat ( uint8_t *inputMemAddress, int fieldBaseAddress, int bcdIntegerLength, int inLength, int outLength, uint8_t *currentRecordAttr, int outputOffset ) {
+	// 03 PRAEMIE      PIC S9(9)V99 COMP-3 VALUE 228.30.
+	int bcdID, shifter;
+	float resultFloat = 228.30;
+	unsigned char *pc;
+	pc = (unsigned char*)&resultFloat;
+	currentRecordAttr[ outputOffset + 0 ] = pc[0];
+	currentRecordAttr[ outputOffset + 1 ] = pc[1];
+	currentRecordAttr[ outputOffset + 2 ] = pc[2];
+	currentRecordAttr[ outputOffset + 3 ] = pc[3];
+	/*
+	shifter = ( outLength - 1) * 8;
+	for ( bcdID = 0; bcdID < outLength; bcdID++ ) {
+			currentRecordAttr[ outputOffset + bcdID ] = ( resultFloat >> shifter ) & 0xff;
+			shifter -= 8;
+	}
+	*/
+	// currentRecordAttr[ outputOffset ] = 0xff;
+	// currentRecordAttr[ outputOffset + 1] = 0xff;
 }
 
 __device__ void comp3ToSignedInt ( int memAddress, int length, int *currentRecordAttr ) {
