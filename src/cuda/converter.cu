@@ -1,5 +1,6 @@
 
 #define DELIMITER 0x3b
+#define COMMA 0x2c
 
 __device__ static const unsigned char e2a[256] = {
           0,  1,  2,  3,156,  9,134,127,151,141,142, 11, 12, 13, 14, 15,
@@ -40,7 +41,7 @@ __device__ void comp3ToInt ( uint8_t *inputMemAddress, int fieldBaseAddress, int
 	}
 }
 
-__device__ void comp3ToIntSerial ( uint8_t *inputMemAddress, int fieldBaseAddress, int bcdIntegerLength, int inLength, int outLength, uint8_t *currentRecordAttr, int outputOffset ) {
+__device__ void comp3ToIntSerial ( uint8_t *inputMemAddress, int fieldBaseAddress, int bcdIntegerLength, int inLength, int outLength, uint8_t *currentRecordAttr, int outputOffset, int commaPosition ) {
 	// converting BCD to integer 
 	// http://www.3480-3590-data-conversion.com/article-bcd-binary.html
 	int shifter, bcdID, bID = 0, i, zeroCounter;
@@ -56,6 +57,10 @@ __device__ void comp3ToIntSerial ( uint8_t *inputMemAddress, int fieldBaseAddres
 		shifter = ( bcdID % 2 ) == 0 ? 4 : 0;
 		currentDigit = (int)(( inputMemAddress[fieldBaseAddress + (bcdID >> 1)] >> shifter ) & 0x0f);
 		if ( currentDigit || alwaysZero ) {
+			if ( ( bcdID + commaPosition ) == bcdIntegerLength ) {
+				currentRecordAttr[ outputOffset + bID ] = COMMA;
+				bID++;
+			}
 			if ( bcdID == 0 ) firstDigit = ( currentDigit > 0 );
 			alwaysZero = 1;
 			currentRecordAttr[ outputOffset + bID ] = 0x30 + currentDigit;

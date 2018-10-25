@@ -4,10 +4,22 @@
 
 #define BINARYSIZE RECORDLENGTH * NUMOFRECORDS 
 #define OUTPUTBINARYSIZE OUTPUTRECORDLENGTH * NUMOFRECORDS
-#define NUMOFCORES 130
+#define NUMOFCORES 384
+#define BLOCKSPERGRID 34
 
 
-int decodeHF ( void ) {
+
+
+int getDeltaRecords ( char* inputMasterFileName, char* inputReferenceFileName, char* outputFileName ) {
+  return 0;
+}
+
+int getDeltaVariables ( char* inputMasterFileName, char* inputReferenceFileName, char* outputFileName ) {
+  return 0;
+}
+
+int main ( int argc, char **argv ) {
+	printf("Starting kernel %d.\n", OUTPUTBINARYSIZE);
 	uint8_t *ptr_hostfile;
 	uint8_t *ptr_output;
 	FILE *ptr_fp;
@@ -19,7 +31,13 @@ int decodeHF ( void ) {
 		printf("Memory allocation error!\n");
 		exit(1);
 	} 
-	if((ptr_fp = fopen("sample/sample-hostfile-1000.bin", "rb"))==NULL)
+	if (argc < 2) {
+		free(ptr_hostfile);
+		free(ptr_output);
+		printf("No input file.\n");
+		exit(1);
+	}
+	if((ptr_fp = fopen(argv[1], "rb"))==NULL)
 	{
 		printf("Unable to open the file!\n");
 		exit(1);
@@ -47,7 +65,7 @@ int decodeHF ( void ) {
     checkCudaErrors(cudaMemcpy(d_output, ptr_output, OUTPUTBINARYSIZE, cudaMemcpyHostToDevice));
  	// start the i86 opcode interpreter on the GPU   
 	cudaEventRecord(start);
-    decodeRecord<<<blocksPerGrid, threadsPerBlock>>>(1,1, d_hostfile, d_output); // numofcores and recordnum
+    decodeRecord<<<blocksPerGrid, threadsPerBlock>>>( d_hostfile, d_output ); // numofcores and recordnum
 	cudaEventRecord(stop);
     
     // checkCudaErrors(cudaMemcpy(ptr_hostfileCopy, d_hostfile, (TOTALBINARYSIZE), cudaMemcpyDeviceToHost));
@@ -61,14 +79,19 @@ int decodeHF ( void ) {
 	cudaEventElapsedTime(&milliseconds, start, stop);
 
 
-	// for ( int i = (1560000 - 1560); i < 1560000; i++ ) {
-	for ( int i = 0; i < (1950 * 1); i++ ) {
+	for ( int i = 0; i < (1950 * 2); i++ ) {
 		if ( (i % 150) == 0 ) printf("\n%d\t", i);
 		printf("%02x ", ptr_output[i]);
 	}
 	printf("\n");
 
-	FILE *out = fopen("../result.csv", "wb");
+	if (argc < 3) {
+		free(ptr_output);
+		printf("No output file.\n");
+		exit(0);
+	}
+
+	FILE *out = fopen(argv[2], "wb");
 	if ( out != NULL ) {
 		const size_t wrote = fwrite(ptr_output, OUTPUTBINARYSIZE, 1, out);
 		printf("Datei geschrieben: %lu\n", wrote);
@@ -77,20 +100,6 @@ int decodeHF ( void ) {
 	printf("used time in sec: %f\n", milliseconds / 1000);
 	
 	free(ptr_output);
-	return 0;
-}
-
-int getDeltaRecords ( char* inputMasterFileName, char* inputReferenceFileName, char* outputFileName ) {
-  return 0;
-}
-
-int getDeltaVariables ( char* inputMasterFileName, char* inputReferenceFileName, char* outputFileName ) {
-  return 0;
-}
-
-int main ( void ) {
-	printf("Starting kernel %d.\n", OUTPUTBINARYSIZE);
-	decodeHF();
 	printf("Kernel stopped.\n");
   return 0;
 }
