@@ -13,7 +13,7 @@
   <xsl:template match="table">
     <!--
 	The following XSLT generates CUDA (.cu) code.
-	This XSLT-file is NOT generated. Please don't mix up.
+	This XSLT-file is NOT generated. Please don't mix up..
     -->
     <xsl:text>
 /*****************************************************************/
