@@ -5,12 +5,16 @@
   exclude-result-prefixes="xs math"
   version="3.0">
   <xsl:output method="text" encoding="UTF-8"/>
-  <xsl:param name="table" select="'AGBASISWERTE'"/>
+  <xsl:param name="table" select="'TABLE_NAME_FROM_CMD_LINE'"/>
   <xsl:param name="numberofrecords" select="1000000"/>
   <xsl:template match="/*">
     <xsl:apply-templates select="//table[@name = $table]"/>
   </xsl:template>
   <xsl:template match="table">
+    <!--
+	The following XSLT generates CUDA (.cu) code.
+	This XSLT-file is NOT generated. Please don't mix up.
+    -->
     <xsl:text>
 /*****************************************************************/
 /*               THIS FILE WILL BE GENERATED                     */
