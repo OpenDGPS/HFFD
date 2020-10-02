@@ -10,7 +10,7 @@ errorcounter=0
 successcounter=0
 
 # TARGETPATH is used in generateStructures, generateMaps and processItemTemplate as root directory of the generated Talend files
-declare TARGETPATH="~/Development/HFFD"
+declare TARGETPATH="."
 # set the table names via export HFFD_TABLES="table1,table2"
 declare -a arr=$HFFD_TABLES 
 declare RAWDATA="${TARGETPATH}/sample"
