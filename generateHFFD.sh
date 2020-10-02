@@ -10,9 +10,10 @@ errorcounter=0
 successcounter=0
 
 # TARGETPATH is used in generateStructures, generateMaps and processItemTemplate as root directory of the generated Talend files
-declare TARGETPATH="/home/rene/Development/HFFD"
-declare -a arr=$HFFD_TABLES # "BEKTS"
-declare RAWDATA="/home/rene/Development/HFFD/sample"
+declare TARGETPATH="~/Development/HFFD"
+# set the table names via export HFFD_TABLES="table1,table2"
+declare -a arr=$HFFD_TABLES 
+declare RAWDATA="${TARGETPATH}/sample"
 declare SAXON="/usr/local/xslt/saxon-he-10.2.jar"
 declare CUDA_HOME="/usr/local/cuda-11.1"
 filepostfix="" # "-SHORT"$chunk
