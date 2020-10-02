@@ -20,3 +20,5 @@ Error[1]:	blocksize empty for  table AGAUFTEIL
  
  
 Error[1]:	unaligned size sample-hostfile 1560 / 88
+ 
+Error[1]:	unaligned size sample-hostfile 1560 / 22
