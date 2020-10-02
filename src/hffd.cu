@@ -2,12 +2,8 @@
 #include <stdlib.h>
 #include "cuda/record.cu"
 
-#define BINARYSIZE RECORDLENGTH * NUMOFRECORDS 
-#define OUTPUTBINARYSIZE OUTPUTRECORDLENGTH * NUMOFRECORDS
-#define NUMOFCORES 384
-#define BLOCKSPERGRID 34
 
-
+// 1317133
 
 
 int getDeltaRecords ( char* inputMasterFileName, char* inputReferenceFileName, char* outputFileName ) {
@@ -56,7 +52,7 @@ int main ( int argc, char **argv ) {
 	cudaEventCreate(&start);
 	cudaEventCreate(&stop);
 
-	dim3 blocksPerGrid(100,1,1); //use only one block
+	dim3 blocksPerGrid(BLOCKSPERGRID,1,1); //use only one block
 	dim3 threadsPerBlock(NUMOFCORES,1,1); //use N threads in the block myKernel<<<blocksPerGrid, threadsPerBlock>>>(result);
     
     checkCudaErrors(cudaMalloc((uint8_t**)&d_hostfile, (BINARYSIZE)));
@@ -77,14 +73,15 @@ int main ( int argc, char **argv ) {
 
 	float milliseconds = 0;
 	cudaEventElapsedTime(&milliseconds, start, stop);
+	printf("used time in sec: %f\n", milliseconds / 1000);
+/*
 
-
-	for ( int i = 0; i < (1950 * 2); i++ ) {
-		if ( (i % 150) == 0 ) printf("\n%d\t", i);
+	for ( int i = 0; i < (OUTPUTRECORDLENGTH * 10); i++ ) {
+		if ( (i % OUTPUTRECORDLENGTH) == 0 ) printf("\n%d\t", i);
 		printf("%02x ", ptr_output[i]);
 	}
 	printf("\n");
-
+*/
 	if (argc < 3) {
 		free(ptr_output);
 		printf("No output file.\n");
@@ -97,7 +94,6 @@ int main ( int argc, char **argv ) {
 		printf("Datei geschrieben: %lu\n", wrote);
 	}
 
-	printf("used time in sec: %f\n", milliseconds / 1000);
 	
 	free(ptr_output);
 	printf("Kernel stopped.\n");

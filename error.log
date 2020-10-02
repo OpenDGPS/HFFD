@@ -1,0 +1,22 @@
+ 
+Error[1]:	blocksize empty for  table BEKTS
+ 
+WARNING: less than 10000 (9 for real) records available!
+Success[1]: BEKTS
+ 
+WARNING: less than 10000 (9 for real) records available!
+Success[1]: BEKTS
+ 
+WARNING: less than 10000 (9 for real) records available!
+Success[1]: BEKTS
+ 
+Success[1]: AGAUFTEIL
+Success[2]: BEKFZTD
+Error[1]:	unaligned size INBANKTAG2 3500398 / 101
+ 
+ 
+ 
+Error[1]:	blocksize empty for  table AGAUFTEIL
+ 
+ 
+Error[1]:	unaligned size sample-hostfile 1560 / 88

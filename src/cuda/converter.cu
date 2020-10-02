@@ -1,7 +1,4 @@
 
-#define DELIMITER 0x3b
-#define COMMA 0x2c
-
 __device__ static const unsigned char e2a[256] = {
           0,  1,  2,  3,156,  9,134,127,151,141,142, 11, 12, 13, 14, 15,
          16, 17, 18, 19,157,133,  8,135, 24, 25,146,143, 28, 29, 30, 31,
@@ -41,15 +38,34 @@ __device__ void comp3ToInt ( uint8_t *inputMemAddress, int fieldBaseAddress, int
 	}
 }
 
+__device__ void compToIntSerial ( uint8_t *inputMemAddress, int fieldBaseAddress, int bcdIntegerLength, int inLength, int outLength, uint8_t *currentRecordAttr, int outputOffset, int commaPosition ) {
+	   int /* shifter, bcdID, */ i;
+	long long resultInteger = 0;
+	resultInteger += inputMemAddress[ fieldBaseAddress ] << 24;
+	resultInteger += inputMemAddress[ fieldBaseAddress ] << 16;
+	resultInteger += inputMemAddress[ fieldBaseAddress ] << 8;
+	resultInteger += inputMemAddress[ fieldBaseAddress ] << 0;
+	for ( i = 0; i < outLength; i++ ) {
+		currentRecordAttr[ outputOffset + i ] = 0x33;
+	}
+	/*
+	shifter = ( outLength - 1) * 8;
+	for ( bcdID = 0; bcdID < outLength; bcdID++ ) {
+			currentRecordAttr[ outputOffset + bcdID ] = ( resultInteger >> shifter ) & 0xff;
+			shifter -= 8;
+	}
+	*/
+}
+
 __device__ void comp3ToIntSerial ( uint8_t *inputMemAddress, int fieldBaseAddress, int bcdIntegerLength, int inLength, int outLength, uint8_t *currentRecordAttr, int outputOffset, int commaPosition ) {
 	// converting BCD to integer 
 	// http://www.3480-3590-data-conversion.com/article-bcd-binary.html
 	int shifter, bcdID, bID = 0, i, zeroCounter;
-	long long resultInteger = 0;
+	// long long resultInteger = 0;
 	shifter = 0;
 	int alwaysZero = 0;
 	int currentDigit = 0;
-	int firstDigit = 0xff;
+	// int firstDigit = 0xff;
 	for ( i = 0; i < outLength; i++ ) {
 		currentRecordAttr[ outputOffset + i ] = 0x20;
 	}
@@ -57,11 +73,11 @@ __device__ void comp3ToIntSerial ( uint8_t *inputMemAddress, int fieldBaseAddres
 		shifter = ( bcdID % 2 ) == 0 ? 4 : 0;
 		currentDigit = (int)(( inputMemAddress[fieldBaseAddress + (bcdID >> 1)] >> shifter ) & 0x0f);
 		if ( currentDigit || alwaysZero ) {
-			if ( ( bcdID + commaPosition ) == bcdIntegerLength ) {
+			if ( (( bcdID + commaPosition ) == bcdIntegerLength) &&  commaPosition > 0 ) {
 				currentRecordAttr[ outputOffset + bID ] = COMMA;
 				bID++;
 			}
-			if ( bcdID == 0 ) firstDigit = ( currentDigit > 0 );
+			// if ( bcdID == 0 ) firstDigit = ( currentDigit > 0 );
 			alwaysZero = 1;
 			currentRecordAttr[ outputOffset + bID ] = 0x30 + currentDigit;
 			bID++;
@@ -76,29 +92,7 @@ __device__ void comp3ToIntSerial ( uint8_t *inputMemAddress, int fieldBaseAddres
 		bID++;
 	}
 	// currentRecordAttr[ outputOffset + bID ] = DELIMITER;
-	currentRecordAttr[ outputOffset + 3 ] = zeroCounter; // (firstDigit);
-}
-
-
-__device__ void comp3ToFloat ( uint8_t *inputMemAddress, int fieldBaseAddress, int bcdIntegerLength, int inLength, int outLength, uint8_t *currentRecordAttr, int outputOffset ) {
-	// 03 PRAEMIE      PIC S9(9)V99 COMP-3 VALUE 228.30.
-	int bcdID, shifter;
-	float resultFloat = 228.30;
-	unsigned char *pc;
-	pc = (unsigned char*)&resultFloat;
-	currentRecordAttr[ outputOffset + 0 ] = pc[0];
-	currentRecordAttr[ outputOffset + 1 ] = pc[1];
-	currentRecordAttr[ outputOffset + 2 ] = pc[2];
-	currentRecordAttr[ outputOffset + 3 ] = pc[3];
-	/*
-	shifter = ( outLength - 1) * 8;
-	for ( bcdID = 0; bcdID < outLength; bcdID++ ) {
-			currentRecordAttr[ outputOffset + bcdID ] = ( resultFloat >> shifter ) & 0xff;
-			shifter -= 8;
-	}
-	*/
-	// currentRecordAttr[ outputOffset ] = 0xff;
-	// currentRecordAttr[ outputOffset + 1] = 0xff;
+	// currentRecordAttr[ outputOffset + 3 ] = zeroCounter; // (firstDigit);
 }
 
 __device__ void comp3ToSignedInt ( int memAddress, int length, int *currentRecordAttr ) {
