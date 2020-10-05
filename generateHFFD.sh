@@ -12,10 +12,15 @@ successcounter=0
 # TARGETPATH is used in generateStructures, generateMaps and processItemTemplate as root directory of the generated Talend files
 declare TARGETPATH="."
 # set the table names via export HFFD_TABLES="table1,table2"
-declare -a arr=$HFFD_TABLES 
-declare RAWDATA="${TARGETPATH}/sample"
-declare SAXON="/usr/local/xslt/saxon-he-10.2.jar"
-declare CUDA_HOME="/usr/local/cuda-11.1"
+declare -a arr=$HFFD_TABLES
+# set RAWDATA  via export RAWDATA=...
+# declare RAWDATA="${TARGETPATH}/sample"
+# set SAXON_HOME and SAXON_JAR via export SAXON_HOME="/usr/local/xslt" export SAXON="${SAXON_HOME}/saxon-he-10.2.jar"
+# declare SAXON="/usr/local/xslt/saxon-he-10.2.jar"
+# set CUDA_HOME via export CUDA_HOME="/usr/local/cuda-11.1"
+# declare CUDA_HOME="/usr/local/cuda-11.1"
+# set DATA_MODEL via export DATA_MOEL=".."
+declare RAWDATA_FILEEXT="TXT"
 filepostfix="" # "-SHORT"$chunk
 
 
@@ -23,9 +28,9 @@ echo " " >> error.log
 
 for table in $(echo $arr | sed "s/,/ /g")
 do
-    blocksize=`java -jar ${SAXON} table-name="$table" sample/tables-datamodel.xml xslt/getRecordLength.xslt`
-echo "java -jar ${SAXON} table-name="$table" sample/tables-datamodel.xml xslt/getRecordLength.xslt"
-    filesize=`stat -c %s  ${RAWDATA}/$table.bin`
+    blocksize=`java -jar ${SAXON} table-name="$table" ${DATA_MODEL} xslt/getRecordLength.xslt`
+echo "java -jar ${SAXON} table-name="$table" ${DATA_MODEL} xslt/getRecordLength.xslt"
+    filesize=`stat -c %s  ${RAWDATA}/${table}.${RAWDATA_FILEEXT}`
 
     if [ "$filesize" -eq "0" ]; then
 	errorcounter=$((errorcounter+1))
@@ -48,7 +53,7 @@ echo "java -jar ${SAXON} table-name="$table" sample/tables-datamodel.xml xslt/ge
 
 		    echo -e "Resize data file of ${BLUE}"$table"${NC} to "$chunk" records with a blocksize of ${ORANGE}"$blocksize"${NC} each"
 
-		    dd bs=$blocksize if=${RAWDATA}/$table.bin of=${TARGETPATH}/rawdata/$table-$chunk.txt count=$chunk # 2> /dev/null
+		    dd bs=$blocksize if=${RAWDATA}/$table.${RAWDATA_FILEEXT} of=${TARGETPATH}/rawdata/$table-$chunk.txt count=$chunk # 2> /dev/null
 
 		    echo -e "Generate CUDA code at ${GREEN}src/cuda/record.cu${NC}"
 		    
@@ -58,11 +63,11 @@ echo "java -jar ${SAXON} table-name="$table" sample/tables-datamodel.xml xslt/ge
 		    # echo "test $newchunk"
 		    if [ "$newchunk" -lt "$realchunk" ]; then
 		       echo "WARNING: less than $chunk ($newchunk for real) records available!" >> error.log
-		       # echo "java -Xmx8192m -jar ${SAXON} table=$table numberofrecords=$newchunk sample/tables-datamodel.xml xslt/generateRecordCUDA.xslt > src/cuda/record.cu"
-		       java -Xmx8192m -jar ${SAXON} table=$table numberofrecords=$newchunk sample/tables-datamodel.xml xslt/generateRecordCUDA.xslt > src/cuda/record.cu
+		       # echo "java -Xmx8192m -jar ${SAXON} table=$table numberofrecords=$newchunk ${DATA_MODEL} xslt/generateRecordCUDA.xslt > src/cuda/record.cu"
+		       java -Xmx8192m -jar ${SAXON} table=$table numberofrecords=$newchunk ${DATA_MODEL} xslt/generateRecordCUDA.xslt > src/cuda/record.cu
 		    else
-			# echo "java -Xmx8192m -jar ${SAXON} table=$table numberofrecords=$chunk sample/tables-datamodel.xml xslt/generateRecordCUDA.xslt > src/cuda/record.cu"
-			java -Xmx8192m -jar ${SAXON} table=$table numberofrecords=$chunk sample/tables-datamodel.xml xslt/generateRecordCUDA.xslt > src/cuda/record.cu
+			# echo "java -Xmx8192m -jar ${SAXON} table=$table numberofrecords=$chunk ${DATA_MODEL} xslt/generateRecordCUDA.xslt > src/cuda/record.cu"
+			java -Xmx8192m -jar ${SAXON} table=$table numberofrecords=$chunk ${DATA_MODEL} xslt/generateRecordCUDA.xslt > src/cuda/record.cu
 		    fi	
 
 		    echo -e "Compile CUDA code to ${GREEN}../hffd-$table.o${NC}"

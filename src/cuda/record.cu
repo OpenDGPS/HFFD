@@ -10,9 +10,9 @@
 #include <helper_cuda.h>
 
     
-#define NUMOFRECORDS 10000
-#define RECORDLENGTH 64
-#define OUTPUTRECORDLENGTH 131 
+#define NUMOFRECORDS 223
+#define RECORDLENGTH 63
+#define OUTPUTRECORDLENGTH 81 
 #define BINARYSIZE RECORDLENGTH * NUMOFRECORDS 
 #define OUTPUTBINARYSIZE OUTPUTRECORDLENGTH * NUMOFRECORDS
 #define NUMOFCORES 1024
@@ -41,11 +41,58 @@ __global__ void decodeRecord ( uint8_t *inputMemAddress , uint8_t *outputMemAddr
 		recordAddress = (threadIdx * RECORDLENGTH);
 		outputAddress = (threadIdx * OUTPUTRECORDLENGTH);
 
-    		// DECIMAL: POLNR
+    		// DECIMAL: BUENDELPOLNR
 		bcdIntegerLength = 11;
 		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 6, 8, outputMemAddress, outputAddress, 0 );
 			recordAddress = recordAddress + 6;
 			outputAddress = outputAddress + 9;
+			outputMemAddress[outputAddress - 1] = DELIMITER;
+		// DECIMAL: VERSION
+		bcdIntegerLength = 5;
+		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 3, 8, outputMemAddress, outputAddress, 0 );
+			recordAddress = recordAddress + 3;
+			outputAddress = outputAddress + 9;
+			outputMemAddress[outputAddress - 1] = DELIMITER;
+		// DECIMAL: SPARTENPOLNR
+		bcdIntegerLength = 11;
+		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 6, 8, outputMemAddress, outputAddress, 0 );
+			recordAddress = recordAddress + 6;
+			outputAddress = outputAddress + 9;
+			outputMemAddress[outputAddress - 1] = DELIMITER;
+		// CHAR: PRODUKT
+		charToCharArray ( inputMemAddress, recordAddress, 5, outputMemAddress, outputAddress);
+			recordAddress = recordAddress + 5;
+			outputAddress = outputAddress + 6;
+			outputMemAddress[outputAddress - 1] = DELIMITER;
+
+         
+      		// DECIMAL: VB
+		bcdIntegerLength = 9;
+		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 5, 8, outputMemAddress, outputAddress, 0 );
+			recordAddress = recordAddress + 5;
+			outputAddress = outputAddress + 9;
+			outputMemAddress[outputAddress - 1] = DELIMITER;
+		// CHAR: KZVALID
+		charToCharArray ( inputMemAddress, recordAddress, 1, outputMemAddress, outputAddress);
+			recordAddress = recordAddress + 1;
+			outputAddress = outputAddress + 2;
+			outputMemAddress[outputAddress - 1] = DELIMITER;
+		// DECIMAL: BETREUER
+		bcdIntegerLength = 7;
+		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 4, 8, outputMemAddress, outputAddress, 0 );
+			recordAddress = recordAddress + 4;
+			outputAddress = outputAddress + 9;
+			outputMemAddress[outputAddress - 1] = DELIMITER;
+		// DECIMAL: ANTRAGSART
+		bcdIntegerLength = 1;
+		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 1, 8, outputMemAddress, outputAddress, 0 );
+			recordAddress = recordAddress + 1;
+			outputAddress = outputAddress + 9;
+			outputMemAddress[outputAddress - 1] = DELIMITER;
+		// CHAR: TC_KZ
+		charToCharArray ( inputMemAddress, recordAddress, 3, outputMemAddress, outputAddress);
+			recordAddress = recordAddress + 3;
+			outputAddress = outputAddress + 4;
 			outputMemAddress[outputAddress - 1] = DELIMITER;
 		// DECIMAL: SPARTE
 		bcdIntegerLength = 1;
@@ -53,98 +100,15 @@ __global__ void decodeRecord ( uint8_t *inputMemAddress , uint8_t *outputMemAddr
 			recordAddress = recordAddress + 1;
 			outputAddress = outputAddress + 9;
 			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// DECIMAL: TARIF
-		bcdIntegerLength = 5;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 3, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 3;
-			outputAddress = outputAddress + 9;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// DECIMAL: RISIKO
-		bcdIntegerLength = 3;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 2, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 2;
-			outputAddress = outputAddress + 9;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// DECIMAL: SCHICHT
-		bcdIntegerLength = 5;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 3, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 3;
-			outputAddress = outputAddress + 9;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-
-         
-      		// DECIMAL: AEART
-		bcdIntegerLength = 3;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 2, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 2;
-			outputAddress = outputAddress + 9;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// INTEGER: BONUS
-		compToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 2, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 4;
-			outputAddress = outputAddress + 5;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// DECIMAL: KFZLFDNR
-		bcdIntegerLength = 3;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 2, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 2;
-			outputAddress = outputAddress + 9;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-
-         
-      
-         
-      
-         
-      
-         
-      
-         
-      		// INTEGER: STATZAHL
-		compToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 2, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 4;
-			outputAddress = outputAddress + 5;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// CHAR: KZGRUENK
+		// CHAR: KZDUPO
 		charToCharArray ( inputMemAddress, recordAddress, 1, outputMemAddress, outputAddress);
 			recordAddress = recordAddress + 1;
 			outputAddress = outputAddress + 2;
 			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// DECIMAL: AUTTAR
-		bcdIntegerLength = 1;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 1, 8, outputMemAddress, outputAddress, 0 );
+		// CHAR: VERARB_STAT
+		charToCharArray ( inputMemAddress, recordAddress, 1, outputMemAddress, outputAddress);
 			recordAddress = recordAddress + 1;
-			outputAddress = outputAddress + 9;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// DECIMAL: BASISPREX
-		bcdIntegerLength = 13;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 7, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 7;
-			outputAddress = outputAddress + 9;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// DECIMAL: BASISPRIN
-		bcdIntegerLength = 13;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 7, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 7;
-			outputAddress = outputAddress + 9;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// DECIMAL: BMSTUFE
-		bcdIntegerLength = 5;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 3, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 3;
-			outputAddress = outputAddress + 9;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// DECIMAL: BMJAHR
-		bcdIntegerLength = 7;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 4, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 4;
-			outputAddress = outputAddress + 9;
-			outputMemAddress[outputAddress - 1] = DELIMITER;
-		// DECIMAL: BLOCKNR
-		bcdIntegerLength = 3;
-		comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 2, 8, outputMemAddress, outputAddress, 0 );
-			recordAddress = recordAddress + 2;
-			outputAddress = outputAddress + 9;
+			outputAddress = outputAddress + 2;
 			outputMemAddress[outputAddress - 1] = DELIMITER;
 
 			outputMemAddress[outputAddress] = 0x0d;

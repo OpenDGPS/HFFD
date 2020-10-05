@@ -25,3 +25,263 @@ Error[1]:	unaligned size sample-hostfile 1560 / 22
  
  
 Error[1]:	unaligned size sample-hostfile 1560 / 22
+ 
+ 
+Error[1]:	blocksize empty for  table AGAUFTEIL
+Error[2]:	blocksize empty for  table BEKFZTD
+Error[3]:	blocksize empty for  table INBANKTAG2
+Error[4]:	blocksize empty for  table KUNAMEN
+Error[5]:	blocksize empty for  table SCHNITTSTL
+ 
+Error[1]:	blocksize empty for  table AGAUFTEIL
+Error[2]:	blocksize empty for  table BEKFZTD
+Error[3]:	blocksize empty for  table INBANKTAG2
+Error[4]:	blocksize empty for  table KUNAMEN
+ 
+Error[1]:	blocksize empty for  table AGAUFTEIL
+Error[2]:	blocksize empty for  table BEKFZTD
+Error[3]:	blocksize empty for  table INBANKTAG2
+Error[4]:	blocksize empty for  table KUNAMEN
+ 
+Error[1]:	blocksize empty for  table AGAUFTEIL
+Error[2]:	blocksize empty for  table BEKFZTD
+Error[3]:	blocksize empty for  table INBANKTAG2
+Error[4]:	blocksize empty for  table KUNAMEN
+Error[5]:	blocksize empty for  table SCHNITTSTL
+Error[6]:	blocksize empty for  table AGBASISWERTE
+Error[7]:	blocksize empty for  table BEKLAUSEL
+Error[8]:	blocksize empty for  table KUNAMENERG
+Error[9]:	blocksize empty for  table STAENDER_NEU
+Error[10]:	blocksize empty for  table BEKORRESHIST
+Error[11]:	blocksize empty for  table INBESTAND
+Error[12]:	blocksize empty for  table KUNAMENHIST
+Error[13]:	blocksize empty for  table STAENDER_NEU_ERG
+Error[14]:	blocksize empty for  table AGIST
+Error[15]:	blocksize empty for  table BEKORRESNEU
+Error[16]:	blocksize empty for  table INBESTFREMD
+Error[17]:	blocksize empty for  table KUPOSTREF
+Error[18]:	blocksize empty for  table STANTRAG
+Error[19]:	blocksize empty for  table AGKOND
+ 
+Error[1]:	CUDA failed for AGAUFTEIL
+Error[2]:	CUDA failed for BEKFZTD
+Error[3]:	unaligned size INBANKTAG2 3500398 / 101
+Error[4]:	CUDA failed for KUNAMEN
+Error[5]:	unaligned size SCHNITTSTL 11961 / 3984
+Error[6]:	CUDA failed for AGBASISWERTE
+Error[7]:	CUDA failed for BEKLAUSEL
+Error[8]:	unaligned size KUNAMENERG 14127792 / 150
+Error[9]:	unaligned size STAENDER_NEU 87659484 / 128
+ 
+Error[1]:	CUDA failed for AGAUFTEIL
+Error[2]:	CUDA failed for BEKFZTD
+Error[3]:	unaligned size INBANKTAG2 3500398 / 101
+Error[4]:	CUDA failed for KUNAMEN
+ 
+Success[1]: AGAUFTEIL
+Success[2]: BEKFZTD
+Error[1]:	unaligned size INBANKTAG2 3500398 / 101
+Success[3]: KUNAMEN
+Error[2]:	unaligned size SCHNITTSTL 11961 / 3984
+Success[4]: AGBASISWERTE
+Success[5]: BEKLAUSEL
+Error[3]:	unaligned size KUNAMENERG 14127792 / 150
+Error[4]:	unaligned size STAENDER_NEU 87659484 / 128
+Error[5]:	unaligned size BEKORRESHIST 38052 / 249
+Error[6]:	unaligned size INBESTAND 1160714937 / 85
+Success[6]: KUNAMENHIST
+Success[7]: STAENDER_NEU_ERG
+Success[8]: AGIST
+Error[7]:	unaligned size BEKORRESNEU 205237158 / 235
+Error[8]:	unaligned size INBESTFREMD 16612864 / 130
+Success[9]: KUPOSTREF
+Success[10]: STANTRAG
+Success[11]: AGKOND
+Success[12]: BEKREDKTO
+Success[13]: INDECKFREI
+Success[14]: KUSTPFLICHTA
+Success[15]: STBILANZ
+Success[16]: AGPROD
+WARNING: less than 10000 (9 for real) records available!
+Success[17]: BEKTS
+Success[18]: INHIST
+WARNING: less than 10000 (7088 for real) records available!
+Success[19]: LSANTBEW
+Success[20]: STDETAILNACHWEIS
+Success[21]: AGPROD_AUSW
+Error[9]:	unaligned size BENACHLASS 6858972 / 119
+Success[22]: INKETT
+Error[10]:	unaligned size LSANTTOP 92976 / 76
+Error[11]:	unaligned size STDRUDOKZAEHL 2610 / 48
+Success[23]: AGPROV
+WARNING: less than 10000 (1466 for real) records available!
+Success[24]: BEOFFERT
+Success[25]: INKLAGE
+Error[12]:	unaligned size LSBEWEG 47733459 / 91
+WARNING: less than 10000 (8808 for real) records available!
+Success[26]: STHIERARCHIE
+Success[27]: AGPROVERG
+Success[28]: BEPRAEMIENBETRAG
+Success[29]: INKTO
+WARNING: less than 10000 (1078 for real) records available!
+Success[30]: LSDIKZRES
+Success[31]: STMSVSUMMEN
+Error[13]:	unaligned size AGPROVNTOP 62832 / 166
+Success[32]: BEREDRIT
+Success[33]: INMANDAT
+Error[14]:	unaligned size LSDIKZVERS 144 / 70
+Success[34]: STPRAEMSUMMEN
+Error[15]:	unaligned size AGPROVNZEILE 11011652 / 149
+Error[16]:	unaligned size BEREFERENT 8986536 / 48
+WARNING: less than 10000 (139 for real) records available!
+Success[35]: INNAME
+WARNING: less than 10000 (7149 for real) records available!
+Success[36]: LSIDENTITAET
+Success[37]: STSCPOTENTIAL
+WARNING: less than 10000 (189 for real) records available!
+Success[38]: AGPROV_LAST
+Success[39]: BERENTE
+WARNING: less than 10000 (1992 for real) records available!
+Success[40]: LSIDENTITAETNEU
+Success[41]: STSTRICHCODE
+WARNING: less than 10000 (44 for real) records available!
+Success[42]: AGPVBIS
+Success[43]: BERISPARM
+Error[17]:	unaligned size INSPARTE 666379800 / 48
+WARNING: less than 10000 (130 for real) records available!
+Success[44]: LSIDFREIG
+Success[45]: STSUMMEN
+Success[46]: AGSPARTE
+WARNING: less than 10000 (325 for real) records available!
+Success[47]: BERISREF
+Success[48]: INTEXT
+Success[49]: LSPERS
+Success[50]: STVKTOSUMMEN
+Error[18]:	unaligned size AGSTAMM 16985496 / 483
+WARNING: less than 10000 (2647 for real) records available!
+Success[51]: BERVL
+WARNING: less than 10000 (17 for real) records available!
+Success[52]: KFANTRAG
+WARNING: less than 10000 (1505 for real) records available!
+Success[53]: LSRENTE
+Success[54]: SVADRREF
+Success[55]: AGSUPER
+Error[19]:	unaligned size KFGUTSCHEIN 140844 / 62
+Error[20]:	unaligned size LSRISIKO 959900 / 106
+Success[56]: SVOBJATT
+Success[57]: AGZIEL_NEU
+Success[58]: BETECHDAT
+Success[59]: KFTEXT
+Success[60]: LSTECHDAT
+Success[61]: SVOBJREF
+Error[21]:	unaligned size AUFTRAG 5439490 / 168
+Success[62]: BETEXT
+WARNING: less than 10000 (111 for real) records available!
+Success[63]: KNKASSEN
+Success[64]: LSTOP
+Error[22]:	unaligned size TVBRIEF 22715454 / 4031
+Success[65]: BEABWMATH
+Success[66]: BETOP
+WARNING: less than 10000 (160 for real) records available!
+Success[67]: KNLIMIT
+WARNING: less than 10000 (719 for real) records available!
+Success[68]: LSTOPDIKZ
+WARNING: less than 10000 (4 for real) records available!
+Success[69]: TVSIB
+Success[70]: BEANNBED
+Error[23]:	unaligned size BETOPERGAENZUNG 9172818 / 50
+WARNING: less than 10000 (7199 for real) records available!
+Success[71]: KNPOLLISTE
+Success[72]: LSTOPKFZ
+Error[24]:	unaligned size TVTOP 303 / 85
+Error[25]:	unaligned size BEANTRAGSAUFNAHME 85145830 / 66
+WARNING: less than 10000 (9338 for real) records available!
+Success[73]: BETOPREF
+Success[74]: KNPROV
+Success[75]: LSTOPOBJ
+Error[26]:	unaligned size UEBERWEISUNGNEU 431912750 / 474
+WARNING: less than 10000 (1908 for real) records available!
+Success[76]: BEARZT
+Success[77]: BEVB
+Success[78]: KUADRESSEN
+WARNING: less than 10000 (414 for real) records available!
+Success[79]: LSTOPREF
+WARNING: less than 10000 (314 for real) records available!
+Success[80]: BEBAVDG
+Success[81]: BEVNVP
+WARNING: less than 10000 (4680 for real) records available!
+Success[82]: KUADRESSENHIST
+Error[27]:	unaligned size LSTOPRENT 42700 / 117
+WARNING: less than 10000 (12 for real) records available!
+Success[83]: YYSANKTIONEN
+WARNING: less than 10000 (5 for real) records available!
+Success[84]: BEBAVDN
+Success[85]: BEVORTVERTRAG
+Success[86]: KUADRREF
+WARNING: less than 10000 (5 for real) records available!
+Success[87]: LSTOPRENTTZ
+Error[28]:	unaligned size YYWEBBAKT 19283453 / 148
+WARNING: less than 10000 (127 for real) records available!
+Success[88]: BEBEWEG
+Error[29]:	unaligned size BEZIEHUNG 158311692 / 150
+WARNING: less than 10000 (5871 for real) records available!
+Success[89]: KUBANK
+Error[30]:	unaligned size LSTOPZUS 12382339 / 239
+WARNING: less than 10000 (45 for real) records available!
+Success[90]: BEDARL
+Success[91]: EDARCHIV
+WARNING: less than 10000 (244 for real) records available!
+Success[92]: KUBEZIEHUNG
+Success[93]: LSUEBERW
+Error[31]:	unaligned size YYWEBOBJATT 1226729280 / 220
+Error[32]:	unaligned size BEFABES 62761842 / 35
+WARNING: less than 10000 (1 for real) records available!
+Success[94]: EDKUNDE
+Success[95]: KUEXTCHAR
+Error[33]:	unaligned size LVPKRZS 110611391 / 203
+Error[34]:	unaligned size YYWEBSICHECK 41665 / 57
+WARNING: less than 10000 (13 for real) records available!
+Success[96]: BEFREMDDEPOT
+Error[35]:	unaligned size EDTOP 246334200 / 279
+WARNING: less than 10000 (23 for real) records available!
+Success[97]: KUEXTCHARHIST
+WARNING: less than 10000 (3403 for real) records available!
+Success[98]: MAANST
+Error[36]:	unaligned size YYWEBVNL 24444236 / 193
+Success[99]: BEFREMDPOL
+Success[100]: EVIBRIEF
+Success[101]: KUEXTERN
+Error[37]:	unaligned size MABKVVP 99752 / 319
+Error[38]:	unaligned size YYWEBVNLSU 9405 / 49
+Success[102]: BEGELDWASCH
+Success[103]: EVITOP
+Success[104]: KUEXTERNHIST
+Success[105]: MADATEN
+Error[39]:	unaligned size ZULABGL 54143980 / 745
+Success[106]: BEKFZ
+Success[107]: EVURGENZ
+Success[108]: KUFRNAMEN
+WARNING: less than 10000 (8971 for real) records available!
+Success[109]: MAKUNDENAKTION
+Error[40]:	unaligned size ZULMLDG 6334272 / 83
+Success[110]: BEKFZAN
+Error[41]:	unaligned size FELDER 37480920 / 93
+Success[111]: KUIDENTITAET
+WARNING: less than 10000 (2111 for real) records available!
+Success[112]: REFERENZ
+Error[42]:	unaligned size ZULMLDGA 206894 / 92
+WARNING: less than 10000 (944 for real) records available!
+Success[113]: BEKFZERG
+WARNING: less than 10000 (261 for real) records available!
+Success[114]: HISTAGSPARTE
+Success[115]: KUIDENTITAETHIST
+Error[43]:	unaligned size RESTART 23407 / 258
+Success[116]: BEKFZMELD
+Success[117]: HISTAGSTAMM
+WARNING: less than 10000 (1321 for real) records available!
+Success[118]: RVWEBANTRAG
+Success[119]: BEKFZTB
+Success[120]: INABBU
+Error[44]:	unaligned size KUKONTAKT 70632011 / 1189
+WARNING: less than 10000 (223 for real) records available!
+Success[121]: RVWEBBUENDEL
