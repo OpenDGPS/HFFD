@@ -35,7 +35,7 @@ comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 6, 8, outpu
 ```
 10975159;1;      ;2;      ;;       ;575962; ;1;      ;
 ```
-*At the end of the output memory block the core will write an character defined by the `DELIMITER`. This will be written also by the function itself. So in the final result there will be two columns instead of one for a field sometimes. This is to prevent memory access collision for the cores.*   
+*At the end of the output memory block the core will write a character defined by the `DELIMITER`. This will be written also by the function itself. So in the final result there will be two columns instead of one for a field sometimes. This is to prevent memory access collision for the cores.*   
 
 ## Behind the scene 
 HFFD is written in C/CUDA. A hostfile is copied to the GPU memory and the CUDA kernel is configured to decode the types following the variable definition from the Cobol Copybook. 
