@@ -291,3 +291,9 @@ Success[2]: BEKFZTD
 Error[1]:	unaligned size INBANKTAG2 3500398 / 101
 Success[3]: KUNAMEN
 Error[2]:	unaligned size SCHNITTSTL 11961 / 3984
+ 
+Success[1]: AGAUFTEIL
+Success[2]: BEKFZTD
+Error[1]:	unaligned size INBANKTAG2 3500398 / 101
+Success[3]: KUNAMEN
+Error[2]:	unaligned size SCHNITTSTL 11961 / 3984

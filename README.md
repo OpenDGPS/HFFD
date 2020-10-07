@@ -12,7 +12,7 @@ export SAXON="${SAXON_HOME}/saxon-he-10.2.jar"
 export CUDA_HOME="<path_to_cuda>"
 export DATA_MOEL="<path_to_xml>"
 ```
-
+To automate this I'm using a simple 'source .hffd.env' containing the local settings for CUDA, XSLT and datasets.
 ## How it works
 HFFD is written in C/CUDA. A hostfile is copied to the GPU memory and the CUDA kernel is configured to decode the types following the variable definition from the Cobol Copybook. 
 
