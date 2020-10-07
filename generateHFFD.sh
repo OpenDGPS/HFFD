@@ -9,17 +9,8 @@ declare chunk=10000
 errorcounter=0
 successcounter=0
 
-# TARGETPATH is used in generateStructures, generateMaps and processItemTemplate as root directory of the generated Talend files
 declare TARGETPATH="."
-# set the table names via export HFFD_TABLES="table1,table2"
 declare -a arr=$HFFD_TABLES
-# set RAWDATA  via export RAWDATA=...
-# declare RAWDATA="${TARGETPATH}/sample"
-# set SAXON_HOME and SAXON_JAR via export SAXON_HOME="/usr/local/xslt" export SAXON="${SAXON_HOME}/saxon-he-10.2.jar"
-# declare SAXON="/usr/local/xslt/saxon-he-10.2.jar"
-# set CUDA_HOME via export CUDA_HOME="/usr/local/cuda-11.1"
-# declare CUDA_HOME="/usr/local/cuda-11.1"
-# set DATA_MODEL via export DATA_MOEL=".."
 declare RAWDATA_FILEEXT="TXT"
 filepostfix="" # "-SHORT"$chunk
 
