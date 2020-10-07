@@ -18,10 +18,21 @@ Run the code generation and data preparation by calling
 ```
 ./generateHFFD.sh
 ```
-It will calculate the record size of each table by reading the data model. Based on the record size (in Byte) it will evaluate if the file size is a multiply of the record size. In the next step it will split the hostfile in chunks with the size of the defined chunk size.
+It will calculate the record size of each table by reading the related data model. Based on the record size (in Byte) it will evaluate if the file size is a factor of the record size. In the next step it will split the hostfile in chunks with the size of the defined chunk size.
 
 The CUDA code generator will get the data structure from the data model XML and write the output to `src/cuda/record.cu`.
 ```CUDA
+                recordAddress = (threadIdx * RECORDLENGTH);
+                outputAddress = (threadIdx * OUTPUTRECORDLENGTH);
+
+                // DECIMAL: POLNR
+                bcdIntegerLength = 11;
+                comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 6, 8, outputMemAddress, outputAddress, 0 );
+                        recordAddress = recordAddress + 6;
+                        outputAddress = outputAddress + 9;
+                        outputMemAddress[outputAddress - 1] = DELIMITER;
+```
+--Example of the generated CUDA code--
 
 ## How it works
 HFFD is written in C/CUDA. A hostfile is copied to the GPU memory and the CUDA kernel is configured to decode the types following the variable definition from the Cobol Copybook. 
