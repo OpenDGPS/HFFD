@@ -3,16 +3,16 @@ Host File Fast Decode
 ## What is HFFD for?
 HFFD reads mainframe host files encoded in formats like EBCDIC to Unicode via CUDA.
 ## Using
-To prepare the datasets and CUDA code the 'generateHFFD.sh' is used. You need to set some environmentvariables:
+To prepare the datasets and CUDA code the 'generateHFFD.sh' is used. You need to set some environment variables:
 ```
-# set the table names via export HFFD_TABLES="table1,table2"                                                                                                                         
-declare -a arr=$HFFD_TABLES
+export HFFD_TABLES="table1,table2" # name of the host files without extension
 export RAWDATA="<path_to_host_files>"
 export SAXON_HOME="/usr/local/xslt"
 export SAXON="${SAXON_HOME}/saxon-he-10.2.jar"                                                                
 export CUDA_HOME="<path_to_cuda>"
 export DATA_MOEL="<path_to_xml>"
 ```
+
 ## How it works
 HFFD is written in C/CUDA. A hostfile is copied to the GPU memory and the CUDA kernel is configured to decode the types following the variable definition from the Cobol Copybook. 
 
