@@ -32,7 +32,7 @@ The CUDA code generator will get the data structure from the data model XML and 
                         outputAddress = outputAddress + 9;
                         outputMemAddress[outputAddress - 1] = DELIMITER;
 ```
---Example of the generated CUDA code--
+*Example of the generated CUDA code: Every GPU core starts with a record address calculated by it's own thread ID and the records length. From this address on the core reads the bytes needed for the decoding and calling specific function handling this data type. The result will be written to another memory block.*
 
 ## How it works
 HFFD is written in C/CUDA. A hostfile is copied to the GPU memory and the CUDA kernel is configured to decode the types following the variable definition from the Cobol Copybook. 
