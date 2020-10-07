@@ -22,19 +22,22 @@ It will calculate the record size of each table by reading the related data mode
 
 The CUDA code generator will get the data structure from the data model XML and write the output to `src/cuda/record.cu`.
 ```CUDA
-                recordAddress = (threadIdx * RECORDLENGTH);
-                outputAddress = (threadIdx * OUTPUTRECORDLENGTH);
-
-                // DECIMAL: POLNR
-                bcdIntegerLength = 11;
-                comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 6, 8, outputMemAddress, outputAddress, 0 );
-                        recordAddress = recordAddress + 6;
-                        outputAddress = outputAddress + 9;
-                        outputMemAddress[outputAddress - 1] = DELIMITER;
+recordAddress = (threadIdx * RECORDLENGTH);
+outputAddress = (threadIdx * OUTPUTRECORDLENGTH);
+// DECIMAL: POLNR
+bcdIntegerLength = 11;
+comp3ToIntSerial ( inputMemAddress, recordAddress, bcdIntegerLength, 6, 8, outputMemAddress, outputAddress, 0 );
+  recordAddress = recordAddress + 6;
+  outputAddress = outputAddress + 9;
+  outputMemAddress[outputAddress - 1] = DELIMITER;
 ```
 *Example of the generated CUDA code: Every GPU core starts with a record address calculated by it's own thread ID and the records length. From this address on the core reads the bytes needed for the decoding and calling specific function handling this data type. The result will be written to another memory block.*
+```
+10975159;1;      ;2;      ;;       ;575962; ;1;      ;
+```
+*At the end of the output memory block the core will write an character defined by the `DELIMITER`. This will be written also by the function itself. So in the final result there will be two columns instead of one for a field sometimes. This is to prevent memory access collision for the cores.*   
 
-## How it works
+## Behind the scene 
 HFFD is written in C/CUDA. A hostfile is copied to the GPU memory and the CUDA kernel is configured to decode the types following the variable definition from the Cobol Copybook. 
 
 Additionally it is able to compare two versions of a given hostfile and write only the records containing differences or only the variables which are different.
